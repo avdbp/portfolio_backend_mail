@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const cors = require('cors');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 
+// Crea una instancia de Express
 const app = express();
 
 // Middleware CORS
@@ -79,5 +80,7 @@ app.post('/send-email', async (req, res) => {
     }
 });
 
-// Exporta la aplicación para que Vercel la ejecute como función serverless
-module.exports = app;
+// Exporta la aplicación para que Vercel pueda ejecutarla como una función serverless
+module.exports = (req, res) => {
+  app(req, res);
+};

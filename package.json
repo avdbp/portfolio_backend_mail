@@ -1,9 +1,9 @@
 {
   "name": "rocketmedia_backend_mail",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "/api/app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "/api/app.js"
   },
   "dependencies": {
     "body-parser": "^1.20.3",
