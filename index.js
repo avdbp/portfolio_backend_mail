@@ -6,7 +6,6 @@ const cors = require('cors'); // Importa CORS
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 
 const app = express();
-const PORT = 5001;
 
 // Middleware CORS: configuración antes de las rutas
 app.use(cors({
@@ -87,7 +86,5 @@ app.post('/send-email', async (req, res) => {
     }
 });
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+// Exportar para que Vercel pueda manejar el servidor
+module.exports = app;
