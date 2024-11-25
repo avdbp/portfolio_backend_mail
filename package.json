@@ -1,7 +1,6 @@
 {
   "name": "rocketmedia_backend_mail",
   "version": "1.0.0",
-  "description": "Servidor backend para correos con nodemailer",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -15,3 +14,4 @@
     "rate-limiter-flexible": "^5.0.4"
   }
 }
+
