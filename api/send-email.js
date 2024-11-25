@@ -1,13 +1,12 @@
-require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const cors = require('cors'); // Importa CORS
+const cors = require('cors');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 
 const app = express();
 
-// Middleware CORS: configuración antes de las rutas
+// Middleware CORS
 app.use(cors({
     origin: 'http://127.0.0.1:5500', // Cambia esto por la URL de tu frontend si es diferente
 }));
@@ -17,8 +16,8 @@ app.use(bodyParser.json());
 
 // Middleware de limitación de tasa
 const rateLimiter = new RateLimiterMemory({
-    points: 5, // Máximo 5 solicitudes
-    duration: 60, // por 60 segundos
+    points: 5,
+    duration: 60,
 });
 
 app.use((req, res, next) => {
@@ -31,7 +30,6 @@ app.use((req, res, next) => {
 app.post('/send-email', async (req, res) => {
     const { name, email, phone, message } = req.body;
 
-    // Validación del formulario
     if (!name || !email || !message) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
@@ -50,7 +48,6 @@ app.post('/send-email', async (req, res) => {
     }
 
     try {
-        // Configurar el transporte de nodemailer
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -59,11 +56,8 @@ app.post('/send-email', async (req, res) => {
             },
         });
 
-        // Verificar el transporte
         await transporter.verify();
-        console.log('El servidor de correo está listo para enviar mensajes');
 
-        // Opciones del correo
         const mailOptions = {
             from: `"${name}" <${email}>`,
             to: process.env.EMAIL,
@@ -77,7 +71,6 @@ app.post('/send-email', async (req, res) => {
             `,
         };
 
-        // Enviar el correo
         await transporter.sendMail(mailOptions);
         res.status(200).json({ message: 'Correo enviado con éxito' });
     } catch (error) {
@@ -86,5 +79,5 @@ app.post('/send-email', async (req, res) => {
     }
 });
 
-// Exportar para que Vercel pueda manejar el servidor
+// Exporta la aplicación para que Vercel la ejecute como función serverless
 module.exports = app;
