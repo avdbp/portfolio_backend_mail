@@ -4,7 +4,10 @@
     {
       "src": "api/send-email.js",
       "use": "@vercel/node",
-      "config": { "nodeVersion": "20.3.1" }
+      "config": {
+        "maxDuration": 10,
+        "memory": 512
+      }
     }
   ]
 }
