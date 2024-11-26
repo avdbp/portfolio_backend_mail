@@ -2,6 +2,5 @@
   "env": {
     "SMTP_USER": "@smtp_user",
     "SMTP_PASS": "@smtp_pass"
-  }
-  
+  } 
 }
