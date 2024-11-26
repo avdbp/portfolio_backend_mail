@@ -10,7 +10,13 @@ const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(express.json());
-app.use(cors()); // Aplica el middleware cors para manejar CORS
+
+// Configuración de CORS para permitir solicitudes desde localhost:3000 (o cualquier otro dominio)
+app.use(cors({
+    origin: '*', // Cambia esto por la URL de tu frontend
+    methods: ['GET', 'POST'], // Asegura que los métodos que estás utilizando están permitidos
+    allowedHeaders: ['Content-Type'] // Permite las cabeceras necesarias
+}));
 
 // Configuración del transportador de Nodemailer
 const transporter = nodemailer.createTransport({
