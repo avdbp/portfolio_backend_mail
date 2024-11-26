@@ -27,8 +27,8 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-app.post('/submit', (req, res) => {
-    res.send('Datos recibidos');
+app.get('/test', (req, res) => {
+    res.json({ message: 'Funciona correctamente' });
   });
 
 // Endpoint para enviar correos
