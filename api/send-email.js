@@ -1,38 +1,38 @@
 const nodemailer = require('nodemailer');
 
 module.exports = async (req, res) => {
+    // Solo aceptar solicitudes POST
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Método no permitido.' }); // Asegura que solo aceptes POST
+        return res.status(405).json({ error: 'Método no permitido. Usa POST.' });
     }
 
     const { name, email, message } = req.body;
 
-    // Valida los campos
+    // Validar campos obligatorios
     if (!name || !email || !message) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
     }
 
-    // Configura Nodemailer
+    // Configurar Nodemailer
     const transporter = nodemailer.createTransport({
-        service: 'Gmail', // Asegúrate de usar un servicio compatible o tus propios ajustes SMTP
+        service: 'Gmail', // Puedes usar otro servicio o configuraciones SMTP personalizadas
         auth: {
-            user: process.env.EMAIL, // Configura estas variables en el entorno de Vercel
-            pass: process.env.PASSWORD
+            user: process.env.EMAIL, // Correo configurado en variables de entorno
+            pass: process.env.PASSWORD // Contraseña o token de aplicación
         }
     });
 
     try {
-        // Envía el correo
+        // Enviar correo
         await transporter.sendMail({
-            from: email,
-            to: process.env.EMAIL,
-            subject: `Nuevo mensaje de ${name}`,
-            text: message
+            from: email, // Dirección del remitente
+            to: process.env.EMAIL, // Dirección de destino (tu correo)
+            subject: `Nuevo mensaje de ${name}`, // Asunto del correo
+            text: message // Contenido del mensaje
         });
 
         return res.status(200).json({ message: 'Correo enviado con éxito.' });
     } catch (error) {
-        // Manejo de errores
         return res.status(500).json({ error: 'Error al enviar el correo.', details: error.message });
     }
 };
