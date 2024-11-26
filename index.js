@@ -27,6 +27,10 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+app.post('/submit', (req, res) => {
+    res.send('Datos recibidos');
+  });
+
 // Endpoint para enviar correos
 app.post('/send-email', async (req, res) => {
     const { name, email, phone, message } = req.body;
