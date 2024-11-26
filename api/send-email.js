@@ -1,38 +1,46 @@
-const nodemailer = require('nodemailer');
+// Importamos nodemailer para manejar el envío de correos
+const nodemailer = require("nodemailer");
 
+// Exportamos la función handler
 module.exports = async (req, res) => {
-    // Solo aceptar solicitudes POST
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Método no permitido. Usa POST.' });
-    }
+  // Verificamos que el método sea POST
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Método no permitido. Usa POST." });
+  }
 
-    const { name, email, message } = req.body;
+  // Parseamos el cuerpo de la solicitud
+  const { name, email, message } = req.body;
 
-    // Validar campos obligatorios
-    if (!name || !email || !message) {
-        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
-    }
+  // Validamos los campos
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "Todos los campos son obligatorios." });
+  }
 
-    // Configurar Nodemailer
-    const transporter = nodemailer.createTransport({
-        service: 'Gmail', // Puedes usar otro servicio o configuraciones SMTP personalizadas
-        auth: {
-            user: process.env.EMAIL, // Correo configurado en variables de entorno
-            pass: process.env.PASSWORD // Contraseña o token de aplicación
-        }
-    });
+  // Configuramos el transportador de nodemailer
+  const transporter = nodemailer.createTransport({
+    host: "smtp.example.com", // Cambia esto por tu servidor SMTP
+    port: 587, // Cambia según el puerto de tu servidor SMTP
+    secure: false, // Cambia a 'true' si usas SSL/TLS
+    auth: {
+      user: process.env.SMTP_USER, // Usuario desde variables de entorno
+      pass: process.env.SMTP_PASS, // Contraseña desde variables de entorno
+    },
+  });
 
-    try {
-        // Enviar correo
-        await transporter.sendMail({
-            from: email, // Dirección del remitente
-            to: process.env.EMAIL, // Dirección de destino (tu correo)
-            subject: `Nuevo mensaje de ${name}`, // Asunto del correo
-            text: message // Contenido del mensaje
-        });
+  // Configuramos el correo
+  const mailOptions = {
+    from: `"${name}" <${email}>`,
+    to: "destinatario@example.com", // Cambia por tu correo de destino
+    subject: "Nuevo mensaje desde el formulario",
+    text: message,
+  };
 
-        return res.status(200).json({ message: 'Correo enviado con éxito.' });
-    } catch (error) {
-        return res.status(500).json({ error: 'Error al enviar el correo.', details: error.message });
-    }
+  try {
+    // Enviamos el correo
+    await transporter.sendMail(mailOptions);
+    return res.status(200).json({ message: "Correo enviado con éxito." });
+  } catch (error) {
+    console.error("Error al enviar correo:", error);
+    return res.status(500).json({ error: "Error al enviar el correo." });
+  }
 };
