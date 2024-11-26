@@ -22,8 +22,8 @@ module.exports = async (req, res) => {
     port: 587, // Cambia según el puerto de tu servidor SMTP
     secure: false, // Cambia a 'true' si usas SSL/TLS
     auth: {
-      user: process.env.SMTP_USER, // Usuario desde variables de entorno
-      pass: process.env.SMTP_PASS, // Contraseña desde variables de entorno
+      user: "rocketmediaportfolio@gmail.com",  // Valor fijo para pruebas
+      pass: "yecz emdz kcwu busv",  // Valor fijo para pruebas
     },
   });
 
