@@ -1,13 +1,14 @@
 {
     "version": 2,
-    "functions": {
-      "api/send-email.js": {
-        "runtime": "nodejs18.x" 
+    "builds": [
+      {
+        "src": "send-email.js",
+        "use": "@vercel/node"
       }
-    },
+    ],
     "env": {
-      "SMTP_USER": "@smtp_user", 
-      "SMTP_PASS": "@smtp_pass"  
+      "SMTP_USER": "@smtp_user",
+      "SMTP_PASS": "@smtp_pass"
     }
-  } 
+  }
   

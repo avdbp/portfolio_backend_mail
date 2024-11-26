@@ -1,6 +1,5 @@
 // Importamos nodemailer para manejar el envío de correos
 const nodemailer = require("nodemailer");
-const config = require("./config");  // Importamos el archivo de configuración
 
 // Exportamos la función handler
 module.exports = async (req, res) => {
@@ -23,8 +22,8 @@ module.exports = async (req, res) => {
     port: 587, // Cambia según el puerto de tu servidor SMTP
     secure: false, // Cambia a 'true' si usas SSL/TLS
     auth: {
-      user: config.SMTP_USER, // Usamos la configuración desde el archivo config
-      pass: config.SMTP_PASS, // Usamos la configuración desde el archivo config
+      user: process.env.SMTP_USER, // Usuario desde variables de entorno
+      pass: process.env.SMTP_PASS, // Contraseña desde variables de entorno
     },
   });
 
