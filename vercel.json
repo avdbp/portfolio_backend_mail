@@ -1,6 +1,10 @@
 {
-  "env": {
-    "SMTP_USER": "@smtp_user",
-    "SMTP_PASS": "@smtp_pass"
-  } 
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/send-email.js",
+      "use": "@vercel/node",
+      "config": { "nodeVersion": "20.3.1" }
+    }
+  ]
 }
